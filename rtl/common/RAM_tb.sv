@@ -2,7 +2,7 @@
 // Repo: https://github.com/openx86/w8086
 // Author: cw1997 [changwei1006@gmail.com] & [https://changwei.me]
 // Datetime: 2021-04-19 21:24:03
-
+`timescale 1ns/1ns
 
 module RAM_tb #(
     WIDTH_DATA = 8,
@@ -20,7 +20,7 @@ RAM #(
     .WIDTH_DATA ( WIDTH_DATA ),
     .DEPTH ( DEPTH )
 ) RAM_inst ( 
-    .port ( interface_RAM_inst ) 
+    .port ( interface_RAM_inst.master ) 
 );
 
 assign interface_RAM_inst.clock = clock;
