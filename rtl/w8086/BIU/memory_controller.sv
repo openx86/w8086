@@ -1,4 +1,4 @@
-// RAM (Random Access Memory)
+// memory controller
 // Repo: https://github.com/openx86/w8086
 // Author: cw1997 [changwei1006@gmail.com] & [https://changwei.me]
 // Datetime: 2021-04-17 20:23:24

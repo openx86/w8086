@@ -1,7 +1,7 @@
-// RAM (Random Access Memory)
+// memory controller testbench
 // Repo: https://github.com/openx86/w8086
 // Author: cw1997 [changwei1006@gmail.com] & [https://changwei.me]
-// Datetime: 2021-04-17 20:23:24
+// Datetime: 2021-04-19 22:32:58
 `timescale 1ns/1ns
 
 module memory_controller_tb (
