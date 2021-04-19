@@ -31,8 +31,8 @@ endinterface: interface_RAM
 module RAM #(
     WIDTH_DATA = 8,
     DEPTH = 8
-) (    
-    interface_RAM port
+) ( 
+    interface_RAM port 
 );
 
 reg [WIDTH_DATA-1:0] ram [0:DEPTH-1];
