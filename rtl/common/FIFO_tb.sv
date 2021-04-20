@@ -24,6 +24,9 @@ FIFO #(
 always #(clock_period / 2) clock = ~clock;
 
 initial begin
+    interface_FIFO_inst.read_enable = 0;
+    interface_FIFO_inst.write_enable = 0;
+    interface_FIFO_inst.write_data = 0;
     #(clock_period)
     reset = 0;
     #(clock_period)
@@ -59,8 +62,6 @@ initial begin
     interface_FIFO_inst.read_enable = 1;
     #(clock_period)
     interface_FIFO_inst.read_enable = 0;
-    #(clock_period)
-    interface_FIFO_inst.read_enable = 1;
     #(clock_period)
 
     interface_FIFO_inst.write_enable = 1;

@@ -40,26 +40,9 @@ module FIFO #(
 localparam WIDTH_ADDR = $clog2(DEPTH);
 
 reg [WIDTH_ADDR-1:0] read_address, write_address;
-// reg [WIDTH_DATA-1:0] ram [0:DEPTH-1];
-reg [WIDTH_ADDR-1:0] counter;
 
-assign port.is_empty = ( counter == 0 );
-assign port.is_full  = ( counter == (DEPTH - 1) );
-
-// assign port.length = 
-// (read_address < write_address) ? (write_address - read_address) : 
-// (read_address > write_address) ? (DEPTH - 1) - read_address + write_address : 
-// 0;
-// TODO: dont use 'always' block because some synthesizers will build latch for the logic below
-always_latch begin
-    if (read_address < write_address) begin
-        port.length <= write_address - read_address;
-    end else if (read_address > write_address) begin
-        port.length <= (DEPTH - 1) - read_address + write_address;
-    end else if (read_address == write_address) begin
-        port.length <= 0;
-    end
-end
+assign port.is_empty = ( port.length == 0 );
+assign port.is_full  = ( port.length == (DEPTH - 1) );
 
 interface_RAM #(
     .WIDTH_DATA ( WIDTH_DATA ),
@@ -73,8 +56,6 @@ RAM #(
     .port ( interface_RAM_in_FIFO_inst )
 );
 
-// assign interface_RAM_in_FIFO_inst.clock         = port.clock;
-// assign interface_RAM_in_FIFO_inst.reset         = port.reset;
 assign interface_RAM_in_FIFO_inst.read_enable   = port.read_enable;
 assign interface_RAM_in_FIFO_inst.read_address  = read_address;
 assign port.read_data                           = interface_RAM_in_FIFO_inst.read_data;
@@ -85,17 +66,17 @@ assign interface_RAM_in_FIFO_inst.write_data    = port.write_data;
 always_ff @(posedge port.clock or posedge port.reset) begin
 
     if (port.reset) begin
-        counter <= 0;
+        port.length <= 0;
     end else begin
         case ({port.read_enable, port.write_enable})
             2'b10: begin // read
-                counter <= counter - 1;
+                port.length <= port.length - 1;
             end
             2'b01: begin // write
-                counter <= counter + 1;
+                port.length <= port.length + 1;
             end
             default: begin // idle
-                counter <= counter;
+                port.length <= port.length;
             end
         endcase
     end
